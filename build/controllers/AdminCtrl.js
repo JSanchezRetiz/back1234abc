@@ -34,13 +34,13 @@ function createAuthUser(req, res) {
      * @returns
      * userRecord
      */
-    var email = req.boby.email;//correo del usuario
+    var email = req.body.email;//correo del usuario
     var password = "1234abc";//contraseña. no enviar
-    var name = req.boby.name;//nombre
-    var lastname = req.boby.lastname;//apellido
+    var name = req.body.name;//nombre
+    var lastname = req.body.lastname;//apellido
     var displayName = name + " " + lastname; //no enviar, lo guarda solo
     var creationDate  = getDate();//no enviar
-    var experience = req.boby.experience;// experiencia.. es un numero
+    var experience = req.body.experience;// experiencia.. es un numero
     var emailVerified = true;//no enviar este
     var city = req.body.city;//ciudad
     var job = req.boby.job; //cargo
