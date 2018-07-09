@@ -34,16 +34,16 @@ function createAuthUser(req, res) {
      * @returns
      * userRecord
      */
-    var email = 'johan.leo_s@hotmail.com';
-    var password = "1234abc";
-    var name = "Johan";
-    var lastname = "Sanchez Retiz";
-    var displayName = name + " " + lastname;
-    var creationDate  = getDate();
-    var experience = 50;
-    var emailVerified = true;
-    var city = 'Bogota';
-
+    var email = req.boby.email;//correo del usuario
+    var password = "1234abc";//contraseña. no enviar
+    var name = req.boby.name;//nombre
+    var lastname = req.boby.lastname;//apellido
+    var displayName = name + " " + lastname; //no enviar, lo guarda solo
+    var creationDate  = getDate();//no enviar
+    var experience = req.boby.experience;// experiencia.. es un numero
+    var emailVerified = true;//no enviar este
+    var city = req.body.city;//ciudad
+    var job = req.boby.job; //cargo
 
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 
@@ -59,6 +59,7 @@ function createAuthUser(req, res) {
             score: 0,
             creationDate: creationDate,
             city: city,
+            job: job,
 
 
         }).then(ref => {
