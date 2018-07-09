@@ -43,7 +43,7 @@ function createAuthUser(req, res) {
     var experience = req.body.experience;// experiencia.. es un numero
     var emailVerified = true;//no enviar este
     var city = req.body.city;//ciudad
-    var job = req.boby.job; //cargo
+    var job = req.body.job; //cargo
 
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 
