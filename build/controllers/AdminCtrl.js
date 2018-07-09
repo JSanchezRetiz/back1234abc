@@ -34,15 +34,16 @@ function createAuthUser(req, res) {
      * @returns
      * userRecord
      */
-    var email = 'lzamudio@assist.com.co';
+    var email = 'johan.leo_s@hotmail.com';
     var password = "1234abc";
-    var name = "Felipe";
-    var lastname = "Zamudio";
+    var name = "Johan";
+    var lastname = "Sanchez Retiz";
     var displayName = name + " " + lastname;
     var creationDate  = getDate();
-    var experience = 120;
+    var experience = 50;
     var emailVerified = true;
-    var city = 'Bogota'
+    var city = 'Bogota';
+
 
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 

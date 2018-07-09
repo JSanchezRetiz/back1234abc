@@ -2,7 +2,11 @@
 var firebase = require('firebase-admin');
 
 function getUserData(req, res){
-    
+    /**
+     * servicio para consultar la informacion del perfil del usuario.
+     * @requires: id: id identificador del usuario en la base de datos
+     * @returns: userDto: Dto con la informacion encontrada del usuario
+     */
 var id=req.body.id;
 var userDto;
 console.log("SVC: getUserData");
