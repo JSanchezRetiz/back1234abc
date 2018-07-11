@@ -113,8 +113,7 @@ function getAllActivityByCoordinator(req, res) {
      * 
      */
     console.log("SVC: getAllActivityByCoordinator");
-    //var uid = req.body.uid;
-    var uid = 'ID COORDINADOR';
+    var uid = req.body.uid;
     var db = firebase.firestore();
     var projectRef = db.collection('Activity');
     var activity = {};
@@ -134,8 +133,40 @@ function getAllActivityByCoordinator(req, res) {
     });
 }
 
+function getAllActivity(req, res) {
+    /**
+     * crear array con la informacion de todas las actividades 
+     * @requires: 
+     *
+     * @returns:
+     * activityDto [];
+     * 
+     */
+    console.log("SVC: getAllActivity");
+    var uid = req.body.uid;
+    var db = firebase.firestore();
+    var projectRef = db.collection('Activity');
+    var activity = {};
+    var activityDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {};
+            console.log(doc.data())
+     
+            activity = doc.data();
+            activityDto.push(activity);
+        });
+
+        res.status(200).send({ activityDto });
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+
 module.exports = {
     newActivity,
     getActivity,
     getAllActivityByCoordinator,
+    getAllActivity,
+    
 }

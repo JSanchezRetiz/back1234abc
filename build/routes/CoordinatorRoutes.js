@@ -9,4 +9,5 @@ var api = express.Router();
 api.post('/newActivity', Coordinator_Routes.newActivity);
 api.post('/getActivity', Coordinator_Routes.getActivity);
 api.post('/getAllActivityByCoordinator',Coordinator_Routes.getAllActivityByCoordinator);
+api.get('/getAllActivity', Coordinator_Routes.getAllActivity);
 module.exports = api; 
