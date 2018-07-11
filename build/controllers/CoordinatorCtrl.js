@@ -41,15 +41,15 @@ function newActivity(req, res) {
 
     console.log('SVC: newActivity')
     var db = firebase.firestore();
-    var id = "ID ACTIVIDAD";
-    var description = "DESCRIPCION";
-    var endTime = "fecha fin de la actividad";
-    var idCoordinator = "ID COORDINADOR";
-    var name = "Nombre de la ACTIVIDAD";
-    var reward = "ID RECOMPENSA";
-    var startTime = "fecha-hora inicio";
-    var title = "TITULO DE LA ACTIVIDAD";
-    var typeScore = "ID TIPO DE PUNTAJE";
+    
+    var description = req.body.description;
+    var endTime = req.body.endTime;
+    var idCoordinator = req.body.idCoordinator;
+    var name = req.body.name;
+    var reward = req.body.reward;
+    var startTime = req.body.startTime;
+    var title = req.body.title;
+    var typeScore = req.body.typeScore;
 
     var addActivity = db.collection('Activity').add({
         description: description,

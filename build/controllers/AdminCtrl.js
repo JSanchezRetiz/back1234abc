@@ -44,7 +44,7 @@ function createAuthUser(req, res) {
     var emailVerified = true;//no enviar este
     var city = req.body.city;//ciudad
     var job = req.body.job; //cargo
-
+    console.log(email ,password,name,lastname,displayName,creationDate,experience,emailVerified,city,job);
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 
         var uid = userRecord.uid;
