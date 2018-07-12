@@ -157,7 +157,7 @@ function getAllActivity(req, res) {
             activityDto.push(activity);
         });
 
-        res.status(200).send({ activityDto });
+        res.status(200).send(activityDto);
     }).catch(function (error) {
         res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
     });
