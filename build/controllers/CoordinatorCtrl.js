@@ -153,7 +153,10 @@ function getAllActivity(req, res) {
             activity = {};
             console.log(doc.data())
      
+            
             activity = doc.data();
+            activity.id= doc.id;
+
             activityDto.push(activity);
         });
 
