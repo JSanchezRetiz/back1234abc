@@ -41,7 +41,7 @@ function newActivity(req, res) {
 
     console.log('SVC: newActivity')
     var db = firebase.firestore();
-    
+    var status= req.body.status;
     var description = req.body.description;
     var endTime = req.body.endTime;
     var idCoordinator = req.body.idCoordinator;
@@ -62,7 +62,7 @@ function newActivity(req, res) {
         title: title,
         typeScore: typeScore,
         creationTime: fecha,
-
+        status: status,
 
     }).then(ref => {
         console.log('new Activity Created: ', ref.id);
