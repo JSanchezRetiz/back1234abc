@@ -41,7 +41,7 @@ function newActivity(req, res) {
 
     console.log('SVC: newActivity')
     var db = firebase.firestore();
-    var status= req.body.status;
+    var status = req.body.status;
     var description = req.body.description;
     var endTime = req.body.endTime;
     var idCoordinator = req.body.idCoordinator;
@@ -95,7 +95,7 @@ function getActivity(req, res) {
             res.status(404).send({ msg: 'Actividad no encontrada' })
         } else {
             activityDto = doc.data();
-            res.status(200).send({ activityDto });
+            res.status(200).send(activityDto);
         }
     })
         .catch(err => {
@@ -152,10 +152,10 @@ function getAllActivity(req, res) {
         snapshot.forEach(function (doc) {
             activity = {};
             console.log(doc.data())
-     
-            
+
+
             activity = doc.data();
-            activity.id= doc.id;
+            activity.id = doc.id;
 
             activityDto.push(activity);
         });
@@ -171,5 +171,5 @@ module.exports = {
     getActivity,
     getAllActivityByCoordinator,
     getAllActivity,
-    
+
 }
