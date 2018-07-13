@@ -10,4 +10,6 @@ api.post('/newActivity', Coordinator_Routes.newActivity);
 api.post('/getActivity', Coordinator_Routes.getActivity);
 api.post('/getAllActivityByCoordinator', Coordinator_Routes.getAllActivityByCoordinator);
 api.get('/getAllActivity', Coordinator_Routes.getAllActivity);
+api.post('/registerScore', Coordinator_Routes.registerScore);
+api.post('/getAllScoreByActivity', Coordinator_Routes.getAllScoreByActivity);
 module.exports = api; 

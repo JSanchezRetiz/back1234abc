@@ -165,10 +165,86 @@ function getAllActivity(req, res) {
     });
 }
 
+function registerScore(req, res) {
+    /**
+ * capturar data de actividad, y usuario,
+ * almacenar data,
+ * incrementar score y experiencia
+ * bloquear participar en la actividad cuando se quiera ingresar nuevamente
+ *   var activityId = req.body.activityId;
+    var score = req.body.score;
+    var experience = req.body.experience;
+    var userId = req.body.uid;
+    var idCoordinator = req.body.idCoordinator;
+ * 
+ */
+    var dateScore = getDate();
+    var userName = req.body.userName;
+    var activityName = req.body.activityName;
+    var activityId = req.body.activityId;
+    var score = req.body.score;
+    var experience = req.body.experience;
+    var uid = req.body.uid;
+    // var idCoordinator = req.body.idCoordinator;
+
+    var db = firebase.firestore();
+    var addActivityScore = db.collection('ActivityScore').add({
+
+        activityId: activityId,
+        score: score,
+        experience: experience,
+        uid: uid,
+        userName: userName,
+        activityName: activityName,
+        dateScore: dateScore,
+    }).then(ref => {
+        console.log('puntaje almacenado: ', ref.id);
+        res.status(200).send({ id: ref.id });
+    }).catch(err => {
+        res.status(404).send({ msg: 'ERROR:', error: err });
+    });
+
+}
+function getAllScoreByActivity(req, res) {
+    /**
+     * consultar el ´puntaje almacenado de una actividad.
+     * 
+     * @requires activityId
+     * @return activityScoreDto
+     * 
+     */
+    var activityId = req.body.activityId;
+    console.log(activityId);
+    console.log("SVC: getAllScoreByActivity");
+
+    var db = firebase.firestore();
+    var projectRef = db.collection('ActivityScore');
+    var activityScore = {};
+    var activityScoreDto = new Array();
+    projectRef.where('activityId', "==", activityId).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activityScore = {};
+            console.log(doc.data())
+            //activity.id = doc.id();
+            activityScore = doc.data();
+            activityScoreDto.push(activityScore);
+        });
+
+        res.status(200).send(activityScoreDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+
+
+}
 module.exports = {
     newActivity,
     getActivity,
     getAllActivityByCoordinator,
     getAllActivity,
+    registerScore,
+    getAllScoreByActivity,
+
+
 
 }
