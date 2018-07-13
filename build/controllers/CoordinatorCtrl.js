@@ -54,7 +54,6 @@ function newActivity(req, res) {
     var addActivity = db.collection('Activity').add({
         description: description,
         endTime: endTime,
-        id: id,
         idCoordinator: idCoordinator,
         name: name,
         reward: reward,
