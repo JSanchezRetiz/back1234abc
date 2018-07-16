@@ -11,7 +11,7 @@ function getDate() {
      */
     var clock = new Date();
     var year = clock.getFullYear();
-    var month = clock.getMonth();
+    var month = 1+clock.getMonth();
     var day = clock.getDate();
     var hour = clock.getHours();
     var minutes = clock.getMinutes();
@@ -205,8 +205,8 @@ function registerScore(req, res) {
 
         var docRef = db.collection('Users').doc(req.body.uid);
         var setUser = docRef.update({
-            experience: +exp,
-            score: +sco
+            experience: exp,
+            score: sco
         }).then(ref => {
             res.status(200).send({ msg: 'Puntaje Registrado exitosamente' });
         }).catch(err => {

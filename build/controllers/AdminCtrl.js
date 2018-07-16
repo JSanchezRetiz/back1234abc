@@ -10,7 +10,7 @@ function getDate() {
      */
     var clock = new Date();
     var year = clock.getFullYear();
-    var month = clock.getMonth();
+    var month =1+ clock.getMonth();
     var day = clock.getDate();
     var hour = clock.getHours();
     var minutes = clock.getMinutes();
