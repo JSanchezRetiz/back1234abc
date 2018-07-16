@@ -11,7 +11,7 @@ function getDate() {
      */
     var clock = new Date();
     var year = clock.getFullYear();
-    var month = 1+clock.getMonth();
+    var month = 1 + clock.getMonth();
     var day = clock.getDate();
     var hour = clock.getHours();
     var minutes = clock.getMinutes();
@@ -164,7 +164,7 @@ function getAllActivity(req, res) {
     });
 }
 
-function registerScore(req, res) {
+function registerScore2(req, res) {
     /**
  * capturar data de actividad, y usuario,
  * almacenar data ok,
@@ -201,23 +201,88 @@ function registerScore(req, res) {
     }).then(ref => {
         console.log('puntaje almacenado: ', ref.id);
 
-        //AGREGAR PUNTAJES A USUARIOS:
+        //consultar puntajes actuales del usuario
 
         var docRef = db.collection('Users').doc(req.body.uid);
-        var setUser = docRef.update({
-            experience: exp,
-            score: sco
-        }).then(ref => {
-            res.status(200).send({ msg: 'Puntaje Registrado exitosamente' });
+        var getData = docRef.get().then(doc => {
+            if (!doc.exists) {
+                console.log("EXPERIENCIA DEL USUARIO")
+            } else {
+                activityDto = doc.data();
+                console.log(doc.data())
+                //res.status(200).send(activityDto);
+            }
         }).catch(err => {
             res.status(404).send({ msg: 'ERROR: NO SE HA PODIDO REGISTRAR', error: err });
         })
+       
 
         // res.status(200).send({ id: ref.id });
     }).catch(err => {
         res.status(404).send({ msg: 'ERROR:', error: err });
     });
 
+}
+function registerScore(req, res) {
+    /**
+ * capturar data de actividad, y usuario,
+ * almacenar data ok,
+ * incrementar score y experiencia pte
+ * bloquear participar en la actividad cuando se quiera ingresar nuevamente pte
+ * 
+ * 
+ *   var activityId = req.body.activityId;
+    var score = req.body.score;
+    var experience = req.body.experience;
+    var userId = req.body.uid;
+    var idCoordinator = req.body.idCoordinator;
+ * 
+ */
+    var dateScore = getDate();
+    var userName = req.body.userName;
+    var activityName = req.body.activityName;
+    var activityId = req.body.activityId;
+    var sco = req.body.score;
+    var exp = req.body.experience;
+    var uid = req.body.uid;
+    // var idCoordinator = req.body.idCoordinator;
+    var db = firebase.firestore();
+    var guardarScore = db.collection('ActivityScore')
+    var docRef = db.collection('Users').doc(uid);
+    let promises = [];
+    promises.push(guardarScore.add({
+
+        activityId: activityId,
+        score: sco,
+        experience: exp,
+        uid: uid,
+        userName: userName,
+        activityName: activityName,
+        dateScore: dateScore,
+    })
+    );
+    promises.push(docRef.get());
+    return Promise.all(promises).then(promiseResult => {
+        let res1 = promiseResult[0].id;
+        let getUserData = promiseResult[1].data();
+
+        console.log(getUserData.experience+" score:"+getUserData.score);
+        var newExperience =0;
+        var newScore=0;
+        newExperience = parseInt(getUserData.experience)+parseInt(exp);
+        newScore =  parseInt(getUserData.score)+parseInt(sco);
+        var setUser = docRef.update({
+            experience: newExperience,
+            score: newScore
+        }).then(ref => {
+            res.status(200).send({ msg: 'Puntaje Registrado exitosamente' });
+        }).catch(err => {
+            res.status(404).send({ msg: 'ERROR: NO SE HA PODIDO REGISTRAR', error: err });
+        })
+   
+    })
+
+  
 }
 function getAllScoreByActivity(req, res) {
     /**
