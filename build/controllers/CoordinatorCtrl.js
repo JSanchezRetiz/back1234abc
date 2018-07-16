@@ -19,7 +19,6 @@ function getDate() {
     var date = year + "/" + month + "/" + day + "," + hour + ":" + minutes + ":" + seconds
     return date;
 }
-
 function newActivity(req, res) {
     /**
          * Servicio de Coordinador:
@@ -168,9 +167,11 @@ function getAllActivity(req, res) {
 function registerScore(req, res) {
     /**
  * capturar data de actividad, y usuario,
- * almacenar data,
- * incrementar score y experiencia
- * bloquear participar en la actividad cuando se quiera ingresar nuevamente
+ * almacenar data ok,
+ * incrementar score y experiencia pte
+ * bloquear participar en la actividad cuando se quiera ingresar nuevamente pte
+ * 
+ * 
  *   var activityId = req.body.activityId;
     var score = req.body.score;
     var experience = req.body.experience;
@@ -221,7 +222,7 @@ function getAllScoreByActivity(req, res) {
     var projectRef = db.collection('ActivityScore');
     var activityScore = {};
     var activityScoreDto = new Array();
-    projectRef.where('activityId', "==", activityId).get().then(function (snapshot) {
+    var result = projectRef.where('activityId', "==", activityId).orderBy('score').get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
             activityScore = {};
             console.log(doc.data())
@@ -237,6 +238,7 @@ function getAllScoreByActivity(req, res) {
 
 
 }
+
 module.exports = {
     newActivity,
     getActivity,
@@ -244,7 +246,4 @@ module.exports = {
     getAllActivity,
     registerScore,
     getAllScoreByActivity,
-
-
-
 }
