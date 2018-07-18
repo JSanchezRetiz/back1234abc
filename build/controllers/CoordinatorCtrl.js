@@ -265,8 +265,6 @@ function registerScore(req, res) {
     return Promise.all(promises).then(promiseResult => {
         let res1 = promiseResult[0].id;
         let getUserData = promiseResult[1].data();
-
-        console.log(getUserData.experience+" score:"+getUserData.score);
         var newExperience =0;
         var newScore=0;
         newExperience = parseInt(getUserData.experience)+parseInt(exp);

@@ -9,5 +9,5 @@ var api = express.Router();
 api.post('/getUserData', UsersCtrl.getUserData);
 api.get('/getUsers', UsersCtrl.getUsers);
 api.post('/createUserInDB', UsersCtrl.createUserInDB);
-
+api.post('/getStoreItem', UsersCtrl.getStoreItem)
 module.exports = api; 
