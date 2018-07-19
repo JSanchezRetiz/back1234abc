@@ -171,7 +171,7 @@ function getAllItemsStore(req, res) {
             item = {};
 
             item = doc.data();
-            item.id = doc.id;
+            item.itemId = doc.id;
 
             itemDto.push(item);
         });
@@ -197,7 +197,7 @@ function getItemById(req, res) {
         } else {
             itemDto = doc.data();
             itemDto.itemId = doc.id;
-            res.status(200).send(itemDto);
+             nres.status(200).send(itemDto);
         }
     })
         .catch(err => {
