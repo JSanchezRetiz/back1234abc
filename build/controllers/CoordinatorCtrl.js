@@ -233,6 +233,9 @@ function getAllScoreByActivity(req, res) {
      * 
      */
     var activityId = req.body.activityId;
+    if(activityId==undefined || activityId ==null || activityId =="" ){
+        res.status(200).send("no has enviado el parametro activityID")
+    }
     console.log(activityId);
     console.log("SVC: getAllScoreByActivity");
 

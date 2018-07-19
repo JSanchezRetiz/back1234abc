@@ -100,12 +100,12 @@ function getStoreItem(req, res) {
     var uid = req.body.uid;
     var idItem = req.body.idItem;
 
-if(uid==undefined || uid ==null || uid =="" ){
-    res.status(200).send("no has enviado el parametro uid")
-}
-if(idItem==undefined || idItem ==null || idItem =="" ){
-    res.status(200).send("no has enviado el parametro idItem")
-}
+    if (uid == undefined || uid == null || uid == "") {
+        res.status(200).send("no has enviado el parametro uid")
+    }
+    if (idItem == undefined || idItem == null || idItem == "") {
+        res.status(200).send("no has enviado el parametro idItem")
+    }
     var db = firebase.firestore();
     var getScore = db.collection('Store').doc(idItem)
     var getUser = db.collection('Users').doc(uid);
@@ -184,6 +184,9 @@ function getAllItemsStore(req, res) {
 
 function getItemById(req, res) {
     var itemId = req.body.itemId;
+    if (itemId == undefined || itemId == null || itemId == "") {
+        res.status(200).send("no has enviado el parametro itemId")
+    }
     var itemDto;
     console.log("SVC: getItemById");
     var db = firebase.firestore();
@@ -193,6 +196,7 @@ function getItemById(req, res) {
             res.status(404).send({ msg: 'Actividad no encontrada' })
         } else {
             itemDto = doc.data();
+            itemDto.itemId = doc.id;
             res.status(200).send(itemDto);
         }
     })
