@@ -164,65 +164,7 @@ function getAllActivity(req, res) {
     });
 }
 
-function registerScore2(req, res) {
-    /**
- * capturar data de actividad, y usuario,
- * almacenar data ok,
- * incrementar score y experiencia pte
- * bloquear participar en la actividad cuando se quiera ingresar nuevamente pte
- * 
- * 
- *   var activityId = req.body.activityId;
-    var score = req.body.score;
-    var experience = req.body.experience;
-    var userId = req.body.uid;
-    var idCoordinator = req.body.idCoordinator;
- * 
- */
-    var dateScore = getDate();
-    var userName = req.body.userName;
-    var activityName = req.body.activityName;
-    var activityId = req.body.activityId;
-    var sco = req.body.score;
-    var exp = req.body.experience;
-    var uid = req.body.uid;
-    // var idCoordinator = req.body.idCoordinator;
 
-    var db = firebase.firestore();
-    var addActivityScore = db.collection('ActivityScore').add({
-
-        activityId: activityId,
-        score: sco,
-        experience: exp,
-        uid: uid,
-        userName: userName,
-        activityName: activityName,
-        dateScore: dateScore,
-    }).then(ref => {
-        console.log('puntaje almacenado: ', ref.id);
-
-        //consultar puntajes actuales del usuario
-
-        var docRef = db.collection('Users').doc(req.body.uid);
-        var getData = docRef.get().then(doc => {
-            if (!doc.exists) {
-                console.log("EXPERIENCIA DEL USUARIO")
-            } else {
-                activityDto = doc.data();
-                console.log(doc.data())
-                //res.status(200).send(activityDto);
-            }
-        }).catch(err => {
-            res.status(404).send({ msg: 'ERROR: NO SE HA PODIDO REGISTRAR', error: err });
-        })
-       
-
-        // res.status(200).send({ id: ref.id });
-    }).catch(err => {
-        res.status(404).send({ msg: 'ERROR:', error: err });
-    });
-
-}
 function registerScore(req, res) {
     /**
  * capturar data de actividad, y usuario,
@@ -284,7 +226,7 @@ function registerScore(req, res) {
 }
 function getAllScoreByActivity(req, res) {
     /**
-     * consultar el ´puntaje almacenado de una actividad.
+     * consultar el puntaje almacenado de una actividad.
      * 
      * @requires activityId
      * @return activityScoreDto
@@ -298,13 +240,14 @@ function getAllScoreByActivity(req, res) {
     var projectRef = db.collection('ActivityScore');
     var activityScore = {};
     var activityScoreDto = new Array();
-    var result = projectRef.where('activityId', "==", activityId).get().then(function (snapshot) {
+    var consult =projectRef.orderBy("score","desc");
+    var result = consult.get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
+            if(doc.data().activityId=activityId){
             activityScore = {};
-            console.log(doc.data())
-            //activity.id = doc.id();
             activityScore = doc.data();
             activityScoreDto.push(activityScore);
+            }
         });
         console.log(activityScoreDto);
         res.status(200).send(activityScoreDto);

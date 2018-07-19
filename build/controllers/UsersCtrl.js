@@ -100,7 +100,12 @@ function getStoreItem(req, res) {
     var uid = req.body.uid;
     var idItem = req.body.idItem;
 
-
+if(uid==undefined || uid ==null || uid =="" ){
+    res.status(200).send("no has enviado el parametro uid")
+}
+if(idItem==undefined || idItem ==null || idItem =="" ){
+    res.status(200).send("no has enviado el parametro idItem")
+}
     var db = firebase.firestore();
     var getScore = db.collection('Store').doc(idItem)
     var getUser = db.collection('Users').doc(uid);
@@ -118,7 +123,7 @@ function getStoreItem(req, res) {
         newItemAmount = itemData.amount - 1;
         newUserScore = userData.score - itemData.scorePrice;
         let promisesSend = [];
-        if (newUserScore > 0 && newItemAmount > 0) {
+        if (newUserScore >= 0 && newItemAmount >= 0) {
             console.log("NEW SCORE OK")
             promisesSend.push(getScore.update({
                 amount: newItemAmount,
@@ -146,10 +151,10 @@ function getStoreItem(req, res) {
                 //                res.status(200).send("Has Adquirido el item correctamente");
             });
         }
-        else if (newItemAmount <= 0) {
+        else if (newItemAmount < 0) {
             res.status(200).send("Lo sentimos, el item que estas tratando de adquirir ya no lo tenemos disponible");
         }
-        else {
+        else if (newUserScore < 0) {
             res.status(200).send("No tienes aun el score necesario para adquirir el item");
         }
 
@@ -197,7 +202,7 @@ function getItemById(req, res) {
 }
 
 function newItemStore(req, res) {
-   
+
     var db = firebase.firestore();
     var amount = req.body.amount;
     var description = req.body.description;
@@ -205,15 +210,15 @@ function newItemStore(req, res) {
     var scorePrice = req.body.scorePrice;
 
     var addItem = db.collection('Store').add({
-        amount:amount,
-        description:description,
-        name:name,
-        scorePrice:scorePrice,
+        amount: amount,
+        description: description,
+        name: name,
+        scorePrice: scorePrice,
 
-    }).then(ref=>{
+    }).then(ref => {
         console.log('new Item Created: ', ref.id);
         res.status(200).send({ itemId: ref.id });
-    }).catch(err=>{
+    }).catch(err => {
         res.status(404).send({ msg: 'ERROR:', error: err });
     });
 
