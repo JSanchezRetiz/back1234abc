@@ -146,7 +146,7 @@ function getStoreItem(req, res) {
                 //                res.status(200).send("Has Adquirido el item correctamente");
             });
         }
-        else if(newItemAmount<=0){
+        else if (newItemAmount <= 0) {
             res.status(200).send("Lo sentimos, el item que estas tratando de adquirir ya no lo tenemos disponible");
         }
         else {
@@ -155,7 +155,69 @@ function getStoreItem(req, res) {
 
     });
 }
-function getAllItemsStore(req, res){
+function getAllItemsStore(req, res) {
+
+    var db = firebase.firestore();
+    var projectRef = db.collection('Store');
+    var item = {};
+    var itemDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            item = {};
+
+            item = doc.data();
+            item.id = doc.id;
+
+            itemDto.push(item);
+        });
+
+        res.status(200).send(itemDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+
+function getItemById(req, res) {
+    var itemId = req.body.itemId;
+    var itemDto;
+    console.log("SVC: getItemById");
+    var db = firebase.firestore();
+    var projectRef = db.collection('Store').doc(itemId);
+    var getCollection = projectRef.get().then(doc => {
+        if (!doc.exists) {
+            res.status(404).send({ msg: 'Actividad no encontrada' })
+        } else {
+            itemDto = doc.data();
+            res.status(200).send(itemDto);
+        }
+    })
+        .catch(err => {
+            console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
+        });
+}
+
+function newItemStore(req, res) {
+   
+    var db = firebase.firestore();
+    var amount = req.body.amount;
+    var description = req.body.description;
+    var name = req.body.name;
+    var scorePrice = req.body.scorePrice;
+
+    var addItem = db.collection('Store').add({
+        amount:amount,
+        description:description,
+        name:name,
+        scorePrice:scorePrice,
+
+    }).then(ref=>{
+        console.log('new Item Created: ', ref.id);
+        res.status(200).send({ itemId: ref.id });
+    }).catch(err=>{
+        res.status(404).send({ msg: 'ERROR:', error: err });
+    });
+
+
 
 }
 
@@ -164,6 +226,8 @@ module.exports = {
     getUsers,
     createUserInDB,
     getStoreItem,
-
+    getAllItemsStore,
+    getItemById,
+    newItemStore,
 
 }

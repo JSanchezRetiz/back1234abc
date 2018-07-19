@@ -44,6 +44,7 @@ function createAuthUser(req, res) {
     var emailVerified = true;//no enviar este
     var city = req.body.city;//ciudad
     var job = req.body.job; //cargo
+    var role = req.body.role;
     console.log(email ,password,name,lastname,displayName,creationDate,experience,emailVerified,city,job);
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 
@@ -52,7 +53,7 @@ function createAuthUser(req, res) {
         var db = firebase.firestore();
         var addUser = db.collection('Users').doc(uid).set({
             idUser: uid,
-            role: 'User',
+            Role: role,
             name: name,
             lastname: lastname,
             experience: experience,
