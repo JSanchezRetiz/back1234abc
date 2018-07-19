@@ -155,6 +155,9 @@ function getStoreItem(req, res) {
 
     });
 }
+function getAllItemsStore(req, res){
+
+}
 
 module.exports = {
     getUserData,
