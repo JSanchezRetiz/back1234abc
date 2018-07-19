@@ -118,7 +118,7 @@ function getStoreItem(req, res) {
         newItemAmount = itemData.amount - 1;
         newUserScore = userData.score - itemData.scorePrice;
         let promisesSend = [];
-        if (newUserScore > 0) {
+        if (newUserScore > 0 && newItemAmount > 0) {
             console.log("NEW SCORE OK")
             promisesSend.push(getScore.update({
                 amount: newItemAmount,
@@ -132,8 +132,22 @@ function getStoreItem(req, res) {
             return Promise.all(promisesSend).then(promisesResult2 => {
                 let res1 = promisesResult2[0];
                 let res2 = promisesResult2[1];
-                res.status(200).send("Has Adquirido el item correctamente");
+                var newItem = db.collection('ItemsAdquired');
+                var create = newItem.add({
+                    uid: uid,
+                    idItem: idItem,
+                }).then(ref => {
+                    res.status(200).send("Has Adquirido un nuevo Item");
+                }).catch(err => {
+                    res.status(404).send("ha ocurrido un error, no hemos podido validar tu compra");
+                });
+                //
+
+                //                res.status(200).send("Has Adquirido el item correctamente");
             });
+        }
+        else if(newItemAmount<=0){
+            res.status(200).send("Lo sentimos, el item que estas tratando de adquirir ya no lo tenemos disponible");
         }
         else {
             res.status(200).send("No tienes aun el score necesario para adquirir el item");
