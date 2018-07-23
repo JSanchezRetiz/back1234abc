@@ -8,6 +8,9 @@ function getUserData(req, res) {
      * @returns: userDto: Dto con la informacion encontrada del usuario
      */
     var id = req.body.id;
+    if(id==undefined || id ==null || id==""){
+        res.status(500).send("NO SE ESTA CAPTURANDO EL PARAMETRO ID");
+    }
     var userDto;
     console.log("SVC: getUserData");
     var db = firebase.firestore();
@@ -183,6 +186,7 @@ function getAllItemsStore(req, res) {
 }
 
 function getItemById(req, res) {
+    console.log("SVC GETITEMBYID")
     var itemId = req.body.itemId;
     if (itemId == undefined || itemId == null || itemId == "") {
         res.status(200).send("no has enviado el parametro itemId")
@@ -197,7 +201,7 @@ function getItemById(req, res) {
         } else {
             itemDto = doc.data();
             itemDto.itemId = doc.id;
-             nres.status(200).send(itemDto);
+             res.status(200).send(itemDto);
         }
     })
         .catch(err => {
@@ -225,8 +229,6 @@ function newItemStore(req, res) {
     }).catch(err => {
         res.status(404).send({ msg: 'ERROR:', error: err });
     });
-
-
 
 }
 

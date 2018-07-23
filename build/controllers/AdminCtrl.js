@@ -34,6 +34,8 @@ function createAuthUser(req, res) {
      * @returns
      * userRecord
      */
+console.log('SVC CREATE AUTH USER')
+console.log(req.body);
     var email = req.body.email;//correo del usuario
     var password = "1234abc";//contraseña. no enviar
     var name = req.body.name;//nombre
@@ -44,8 +46,10 @@ function createAuthUser(req, res) {
     var emailVerified = true;//no enviar este
     var city = req.body.city;//ciudad
     var job = req.body.job; //cargo
-    var role = req.body.role;
-    console.log(email ,password,name,lastname,displayName,creationDate,experience,emailVerified,city,job);
+    var role = req.body.role;//rol
+
+
+   
     firebase.auth().createUser({ email, password, displayName, emailVerified }).then(function (userRecord) {
 
         var uid = userRecord.uid;
@@ -53,7 +57,7 @@ function createAuthUser(req, res) {
         var db = firebase.firestore();
         var addUser = db.collection('Users').doc(uid).set({
             idUser: uid,
-            Role: role,
+            role: role,
             name: name,
             lastname: lastname,
             experience: experience,
