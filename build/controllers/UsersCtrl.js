@@ -96,21 +96,21 @@ function getStoreItem(req, res) {
      * servicio para comprar un item de la tienda
      * @requires
      * uid= user id
-     * idItem =  id del articulo que esta adquiriendo el usuario 
+     * itemId =  id del articulo que esta adquiriendo el usuario 
      */
 
     // var dateScore = getDate();
     var uid = req.body.uid;
-    var idItem = req.body.idItem;
+    var itemId = req.body.itemId;
 
     if (uid == undefined || uid == null || uid == "") {
         res.status(200).send("no has enviado el parametro uid")
     }
-    if (idItem == undefined || idItem == null || idItem == "") {
-        res.status(200).send("no has enviado el parametro idItem")
+    if (itemId == undefined || itemId == null || itemId == "") {
+        res.status(200).send("no has enviado el parametro itemId")
     }
     var db = firebase.firestore();
-    var getScore = db.collection('Store').doc(idItem)
+    var getScore = db.collection('Store').doc(itemId)
     var getUser = db.collection('Users').doc(uid);
 
     var newItemAmount;
@@ -143,7 +143,7 @@ function getStoreItem(req, res) {
                 var newItem = db.collection('ItemsAdquired');
                 var create = newItem.add({
                     uid: uid,
-                    idItem: idItem,
+                    itemId: itemId,
                 }).then(ref => {
                     res.status(200).send("Has Adquirido un nuevo Item");
                 }).catch(err => {
