@@ -1,3 +1,5 @@
+
+
 'use strict'
 var firebase = require('firebase-admin');
 
@@ -207,10 +209,10 @@ function registerScore(req, res) {
     return Promise.all(promises).then(promiseResult => {
         let res1 = promiseResult[0].id;
         let getUserData = promiseResult[1].data();
-        var newExperience =0;
-        var newScore=0;
-        newExperience = parseInt(getUserData.experience)+parseInt(exp);
-        newScore =  parseInt(getUserData.score)+parseInt(sco);
+        var newExperience = 0;
+        var newScore = 0;
+        newExperience = parseInt(getUserData.experience) + parseInt(exp);
+        newScore = parseInt(getUserData.score) + parseInt(sco);
         var setUser = docRef.update({
             experience: newExperience,
             score: newScore
@@ -219,10 +221,10 @@ function registerScore(req, res) {
         }).catch(err => {
             res.status(404).send({ msg: 'ERROR: NO SE HA PODIDO REGISTRAR', error: err });
         })
-   
+
     })
 
-  
+
 }
 function getAllScoreByActivity(req, res) {
     /**
@@ -233,7 +235,13 @@ function getAllScoreByActivity(req, res) {
      * 
      */
     var activityId = req.body.activityId;
+<<<<<<< HEAD
 
+=======
+    if (activityId == undefined || activityId == null || activityId == "") {
+        res.status(200).send("no has enviado el parametro activityID")
+    }
+>>>>>>> fdc5f6d5457e72e6131a4ad3c5b6bc5140b72c0b
     console.log(activityId);
     console.log("SVC: getAllScoreByActivity");
 
@@ -241,13 +249,13 @@ function getAllScoreByActivity(req, res) {
     var projectRef = db.collection('ActivityScore');
     var activityScore = {};
     var activityScoreDto = new Array();
-    var consult =projectRef.orderBy("score","desc");
+    var consult = projectRef.orderBy("score", "desc");
     var result = consult.get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
-            if(doc.data().activityId=activityId){
-            activityScore = {};
-            activityScore = doc.data();
-            activityScoreDto.push(activityScore);
+            if (doc.data().activityId = activityId) {
+                activityScore = {};
+                activityScore = doc.data();
+                activityScoreDto.push(activityScore);
             }
         });
    res.status(200).send(activityScoreDto);
@@ -255,6 +263,42 @@ function getAllScoreByActivity(req, res) {
         res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
     });
 
+
+}
+function updateItemStore(req, res) {
+
+    var db = firebase.firestore();
+    var itemId = req.body.itemId;
+    console.log("variable del id");
+    console.log(itemId);
+
+    var projectRef = db.collection('Store').doc(itemId).update({
+        amount: req.body.amount,
+        description: req.body.description,
+        name: req.body.name,
+        scorePrice: req.body.scorePrice,
+
+    }).then(ref => {
+        console.log('Se modifico exitosamente la recompensa');
+        res.status(200).send(req.body.itemId);
+    }).catch(err => {
+        res.status(404).send({ msg: 'Error no se ha podido modificar la recompensa' })
+    })
+}
+function deleteItemStore(req, res) {
+    var db = firebase.firestore();
+    
+    var itemId = req.body.itemId;
+    console.log("el id del proyecto a eliminar es:");
+    console.log(itemId);
+
+    var projectRef = db.collection('Store');
+    var deleteDoc = projectRef.doc(itemId).delete().then(function  () {
+        console.log("se elimino la recompensa correctamente");
+        res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la Recompensa' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
 
 }
 
@@ -265,4 +309,6 @@ module.exports = {
     getAllActivity,
     registerScore,
     getAllScoreByActivity,
+    updateItemStore,
+    deleteItemStore,
 }
