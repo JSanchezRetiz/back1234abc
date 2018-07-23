@@ -188,6 +188,7 @@ function getAllItemsStore(req, res) {
 function getItemById(req, res) {
     console.log("SVC GETITEMBYID")
     var itemId = req.body.itemId;
+    console.log(itemId)
     if (itemId == undefined || itemId == null || itemId == "") {
         res.status(200).send("no has enviado el parametro itemId")
     }
