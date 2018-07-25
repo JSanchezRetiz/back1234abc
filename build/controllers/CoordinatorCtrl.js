@@ -307,6 +307,7 @@ function createActivity(req, res) {
     var status = req.body.status;
     var title = req.body.title;
     var typeScore = req.body.typeScore;
+    var rules =req.body.rules;
 
     var addItem = db.collection('Activity').add({
         creationTime: fecha,
@@ -319,6 +320,7 @@ function createActivity(req, res) {
         status: status,
         title: title,
         typeScore: typeScore,
+        rules:rules,
     }).then(ref => {
         console.log('new created activity: ', ref.id);
         res.status(200).send({ id: ref.id });
