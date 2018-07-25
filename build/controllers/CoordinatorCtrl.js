@@ -251,7 +251,7 @@ function getAllScoreByActivity(req, res) {
                 activityScoreDto.push(activityScore);
             }
         });
-   res.status(200).send(activityScoreDto);
+        res.status(200).send(activityScoreDto);
     }).catch(function (error) {
         res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
     });
@@ -280,17 +280,50 @@ function updateItemStore(req, res) {
 }
 function deleteItemStore(req, res) {
     var db = firebase.firestore();
-    
+
     var itemId = req.body.itemId;
     console.log("el id del proyecto a eliminar es:");
     console.log(itemId);
 
     var projectRef = db.collection('Store');
-    var deleteDoc = projectRef.doc(itemId).delete().then(function  () {
+    var deleteDoc = projectRef.doc(itemId).delete().then(function () {
         console.log("se elimino la recompensa correctamente");
         res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la Recompensa' });
     }).catch(function (error) {
         res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
+
+}
+function createActivity(req, res) {
+    var fecha = getDate();
+    var db = firebase.firestore();
+    
+    var description = req.body.description;
+    var endTime = req.body.endTime;
+    var idCoordinator = req.body.idCoordinator;
+    var name = req.body.name;
+    var reward = req.body.reward;
+    var startTime = req.body.startTime;
+    var status = req.body.status;
+    var title = req.body.title;
+    var typeScore = req.body.typeScore;
+
+    var addItem = db.collection('Activity').add({
+        creationTime: fecha,
+        description: description,
+        endTime: endTime,
+        idCoordinator: idCoordinator,
+        name: name,
+        reward: reward,
+        startTime: startTime,
+        status: status,
+        title: title,
+        typeScore: typeScore,
+    }).then(ref => {
+        console.log('new created activity: ', ref.id);
+        res.status(200).send({ id: ref.id });
+    }).catch(err => {
+        res.status(404).send({ msg: 'ERROR:', error: err });
     });
 
 }
@@ -304,4 +337,5 @@ module.exports = {
     getAllScoreByActivity,
     updateItemStore,
     deleteItemStore,
+    createActivity,
 }

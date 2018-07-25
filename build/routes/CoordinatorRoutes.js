@@ -14,4 +14,5 @@ api.post('/registerScore', Coordinator_Routes.registerScore);
 api.post('/getAllScoreByActivity', Coordinator_Routes.getAllScoreByActivity);
 api.post('/updateItemStore', Coordinator_Routes.updateItemStore);
 api.post('/deleteItemStore', Coordinator_Routes.deleteItemStore);
+api.post('/createActivity', Coordinator_Routes.createActivity);
 module.exports = api; 
