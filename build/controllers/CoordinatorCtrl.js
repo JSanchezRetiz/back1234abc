@@ -294,6 +294,87 @@ function deleteItemStore(req, res) {
     });
 
 }
+function getAllMedals(req, res) {
+  
+    console.log("SVC: getAllMedals");
+    var id = req.body.id;
+    var db = firebase.firestore();
+    var projectRef = db.collection('Medals');
+    var medals = {};
+    var medalsDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            medals = {};
+            console.log(doc.data())
+
+
+            medals = doc.data();
+            medals.id = doc.id;
+
+            medalsDto.push(medals);
+        });
+
+        res.status(200).send(medalsDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+function deleteMedal(req, res) {
+    var db = firebase.firestore();
+
+    var id = req.body.id;
+    console.log("el id de la medalla a eliminar es:");
+    console.log(id);
+
+    var projectRef = db.collection('Medals');
+    var deleteDoc = projectRef.doc(id).delete().then(function () {
+        console.log("se elimino la medalla correctamente");
+        res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la medalla' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
+
+}
+
+function updateMedal(req,res){
+    var db = firebase.firestore();
+    var id = req.body.id;
+    console.log("variable del id");
+    console.log(id);
+
+    var projectRef = db.collection('Medals').doc(id).update({
+        name: req.body.name,
+        description: req.body.description,
+        requirementScore: req.body.requirementScore,
+
+    }).then(ref => {
+        console.log('Se modifico exitosamente la medalla');
+        res.status(200).send(req.body.id);
+    }).catch(err => {
+        res.status(404).send({ msg: 'Error no se ha podido modificar la medalla' })
+    })
+
+}
+
+function createMedal(req, res){
+    var db= firebase.firestore();
+    var name= req.body.name;
+    var description = req.body.description;
+    var requirementScore = req.body.requirementScore;
+
+    var addMedal= db.collection('Medals').add({
+        name:name,
+        description:description,
+        requirementScore:requirementScore
+    }).then(ref => {
+        console.log('new created medal: ', ref.id);
+        res.status(200).send({ id: ref.id });
+    }).catch(err => {
+        res.status(404).send({ msg: 'ERROR:', error: err });
+    });
+
+
+}
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
@@ -330,6 +411,7 @@ function createActivity(req, res) {
 
 }
 
+
 module.exports = {
     newActivity,
     getActivity,
@@ -340,4 +422,8 @@ module.exports = {
     updateItemStore,
     deleteItemStore,
     createActivity,
+    createMedal,
+    updateMedal,
+    deleteMedal,
+    getAllMedals
 }
