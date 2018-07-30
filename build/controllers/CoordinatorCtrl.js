@@ -382,7 +382,7 @@ function getMedalById(req, res) {
     if (id == undefined || id == null || id == "") {
         res.status(200).send("no has enviado el parametro id")
     }
-    var itemDto;
+    var medalDto;
     console.log("SVC: getMedalById");
     var db = firebase.firestore();
     var projectRef = db.collection('Medals').doc(id);
