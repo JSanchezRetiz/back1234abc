@@ -375,6 +375,30 @@ function createMedal(req, res){
 
 
 }
+function getMedalById(req, res) {
+    console.log("SVC getMedalById")
+    var id = req.body.id;
+    console.log(id)
+    if (id == undefined || id == null || id == "") {
+        res.status(200).send("no has enviado el parametro id")
+    }
+    var itemDto;
+    console.log("SVC: getMedalById");
+    var db = firebase.firestore();
+    var projectRef = db.collection('Medals').doc(id);
+    var getCollection = projectRef.get().then(doc => {
+        if (!doc.exists) {
+            res.status(404).send({ msg: 'Medalla no encontrada' })
+        } else {
+            medalDto = doc.data();
+            medalDto.itemId = doc.id;
+             res.status(200).send(medalDto);
+        }
+    })
+        .catch(err => {
+            console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
+        });
+}
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
@@ -425,5 +449,6 @@ module.exports = {
     createMedal,
     updateMedal,
     deleteMedal,
-    getAllMedals
+    getAllMedals,
+    getMedalById
 }

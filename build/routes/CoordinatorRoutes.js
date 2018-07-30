@@ -19,4 +19,5 @@ api.post('/createMedal', Coordinator_Routes.createMedal);
 api.post('/updateMedal', Coordinator_Routes.updateMedal);
 api.post('/deleteMedal', Coordinator_Routes.deleteMedal);
 api.get('/getAllMedals', Coordinator_Routes.getAllMedals);
+api.post('/getMedalById', Coordinator_Routes.getMedalById);
 module.exports = api; 
