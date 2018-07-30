@@ -399,6 +399,49 @@ function getMedalById(req, res) {
             console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
         });
 }
+function deleteActivity(req, res){
+var db= firebase.firestore();
+
+var id = req.body.id;
+console.log("el id de la actividad a eliminar es:");
+console.log(id);
+
+var projectRef = db.collection('Activity');
+var deleteDoc = projectRef.doc(id).delete().then(function () {
+    console.log("se elimino la actividad correctamente");
+    res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la actividad' });
+}).catch(function (error) {
+    res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+});
+}
+
+function updateActivity(req, res){
+    var db=firebase.firestore();
+    var id = req.body.id;
+    console.log("variable del id");
+    console.log(id);
+
+    var projectRef = db.collection('Activity').doc(id).update({
+        name: req.body.name,
+        description: req.body.description,
+        endTime: req.body.endTime,
+        reward: req.body.reward,
+        rules: req.body.rules,
+        startTime:req.body.startTime,
+        title:req.body.title,
+
+    }).then(ref => {
+        console.log('Se modifico exitosamente la actividad');
+        res.status(200).send(req.body.id);
+    }).catch(err => {
+        res.status(404).send({ msg: 'Error no se ha podido modificar la actividad' })
+    })
+
+    
+
+}
+
+
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
@@ -450,5 +493,8 @@ module.exports = {
     updateMedal,
     deleteMedal,
     getAllMedals,
-    getMedalById
+    getMedalById,
+    deleteActivity,
+    updateActivity,
+
 }
