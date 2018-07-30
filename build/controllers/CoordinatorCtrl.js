@@ -391,7 +391,7 @@ function getMedalById(req, res) {
             res.status(404).send({ msg: 'Medalla no encontrada' })
         } else {
             medalDto = doc.data();
-            medalDto.itemId = doc.id;
+            medalDto.id = doc.id;
              res.status(200).send(medalDto);
         }
     })
