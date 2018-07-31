@@ -50,6 +50,7 @@ function newActivity(req, res) {
     var reward = req.body.reward;
     var startTime = req.body.startTime;
     var title = req.body.title;
+    var prize =req.body.prize;
     var typeScore = req.body.typeScore;
 
     var addActivity = db.collection('Activity').add({
@@ -60,6 +61,7 @@ function newActivity(req, res) {
         reward: reward,
         startTime: startTime,
         title: title,
+        prize:prize,
         typeScore: typeScore,
         creationTime: fecha,
         status: status,
@@ -428,6 +430,8 @@ function updateActivity(req, res){
         reward: req.body.reward,
         rules: req.body.rules,
         startTime:req.body.startTime,
+        prize:req.body.prize,
+        medal:req.body.medal,
         title:req.body.title,
 
     }).then(ref => {
@@ -440,7 +444,15 @@ function updateActivity(req, res){
     
 
 }
+// function getRewards(req,res){
+//     var db=firebase.firestore();
+//     var projectRef =db.collection('Activity');
 
+//     let promise = []
+//     promises.push(projectRef.get());
+//     promise.push(firebase.auth().listUsers());
+
+// }
 
 function createActivity(req, res) {
     var fecha = getDate();
@@ -455,6 +467,8 @@ function createActivity(req, res) {
     var status = req.body.status;
     var title = req.body.title;
     var typeScore = req.body.typeScore;
+    var prize = req.body.prize;
+    var medal =req.body.medal;
     var rules =req.body.rules;
 
     var addItem = db.collection('Activity').add({
@@ -467,6 +481,8 @@ function createActivity(req, res) {
         startTime: startTime,
         status: status,
         title: title,
+        prize:prize,
+        medal:medal,
         typeScore: typeScore,
         rules:rules,
     }).then(ref => {
@@ -496,5 +512,7 @@ module.exports = {
     getMedalById,
     deleteActivity,
     updateActivity,
+
+
 
 }
