@@ -26,4 +26,5 @@ api.get('/getTypeOfScore', Coordinator_Routes.getTypeOfScore);
 api.post('/createNotification', Coordinator_Routes.createNotification);
  api.post('/updateNotification', Coordinator_Routes.updateNotification);
  api.post('/deleteNotification', Coordinator_Routes.deleteNotification);
+ api.get('/getAllNotification', Coordinator_Routes.getAllNotification);
 module.exports = api; 

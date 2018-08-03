@@ -313,6 +313,32 @@ function deleteItemStore(req, res) {
     });
 
 }
+function getAllNotification(req, res) {
+
+    console.log("SVC: getAllNotification");
+    var id = req.body.id;
+    var db = firebase.firestore();
+    var projectRef = db.collection('Notify');
+    var notification = {};
+    var notificationDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            notification = {};
+            console.log(doc.data())
+
+
+            notification = doc.data();
+            notification.id = doc.id;
+
+            notificationDto.push(notification);
+        });
+
+        res.status(200).send(notificationDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+
 function getAllMedals(req, res) {
 
     console.log("SVC: getAllMedals");
@@ -605,6 +631,7 @@ module.exports = {
     createNotification,
      updateNotification,
      deleteNotification,
+     getAllNotification,
 
 
 }
