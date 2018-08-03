@@ -21,6 +21,25 @@ function getDate() {
     var date = year + "/" + month + "/" + day + "," + hour + ":" + minutes + ":" + seconds
     return date;
 }
+function updateNotification(req, res) {
+    var db = firebase.firestore();
+    var id = req.body.id;
+    console.log("variable del id");
+    console.log(id);
+
+    var projectRef = db.collection('Notify').doc(id).update({
+        endTime: req.body.endTime,
+        startTime: req.body.startTime,
+        title: req.body.title,
+        message: req.body.message,
+    
+    }).then(ref => {
+        console.log('Se modifico exitosamente la notificacion');
+        res.status(200).send(req.body.id);
+    }).catch(err => {
+        res.status(404).send({ msg: 'Error no se ha podido modificar la notificacion' })
+    })
+}
 function newActivity(req, res) {
     /**
          * Servicio de Coordinador:
@@ -50,7 +69,7 @@ function newActivity(req, res) {
     var reward = req.body.reward;
     var startTime = req.body.startTime;
     var title = req.body.title;
-    var prize =req.body.prize;
+    var prize = req.body.prize;
     var typeScore = req.body.typeScore;
 
     var addActivity = db.collection('Activity').add({
@@ -61,7 +80,7 @@ function newActivity(req, res) {
         reward: reward,
         startTime: startTime,
         title: title,
-        prize:prize,
+        prize: prize,
         typeScore: typeScore,
         creationTime: fecha,
         status: status,
@@ -282,11 +301,9 @@ function updateItemStore(req, res) {
 }
 function deleteItemStore(req, res) {
     var db = firebase.firestore();
-
     var itemId = req.body.itemId;
     console.log("el id del proyecto a eliminar es:");
     console.log(itemId);
-
     var projectRef = db.collection('Store');
     var deleteDoc = projectRef.doc(itemId).delete().then(function () {
         console.log("se elimino la recompensa correctamente");
@@ -297,7 +314,7 @@ function deleteItemStore(req, res) {
 
 }
 function getAllMedals(req, res) {
-  
+
     console.log("SVC: getAllMedals");
     var id = req.body.id;
     var db = firebase.firestore();
@@ -338,7 +355,7 @@ function deleteMedal(req, res) {
 
 }
 
-function updateMedal(req,res){
+function updateMedal(req, res) {
     var db = firebase.firestore();
     var id = req.body.id;
     console.log("variable del id");
@@ -358,16 +375,16 @@ function updateMedal(req,res){
 
 }
 
-function createMedal(req, res){
-    var db= firebase.firestore();
-    var name= req.body.name;
+function createMedal(req, res) {
+    var db = firebase.firestore();
+    var name = req.body.name;
     var description = req.body.description;
     var requirementScore = req.body.requirementScore;
 
-    var addMedal= db.collection('Medals').add({
-        name:name,
-        description:description,
-        requirementScore:requirementScore
+    var addMedal = db.collection('Medals').add({
+        name: name,
+        description: description,
+        requirementScore: requirementScore
     }).then(ref => {
         console.log('new created medal: ', ref.id);
         res.status(200).send({ id: ref.id });
@@ -376,6 +393,20 @@ function createMedal(req, res){
     });
 
 
+}
+function deleteNotification(req, res) {
+    var db = firebase.firestore();
+    var id = req.body.id;
+    console.log("el id de la notificacion a eliminar es:");
+    console.log(id);
+
+    var projectRef = db.collection('Notify');
+    var deleteDoc = projectRef.doc(id).delete().then(function () {
+        console.log("se elimino la notificacion correctamente");
+        res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE LA NOTIFICACION' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
 }
 function getMedalById(req, res) {
     console.log("SVC getMedalById")
@@ -394,31 +425,31 @@ function getMedalById(req, res) {
         } else {
             medalDto = doc.data();
             medalDto.id = doc.id;
-             res.status(200).send(medalDto);
+            res.status(200).send(medalDto);
         }
     })
         .catch(err => {
             console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
         });
 }
-function deleteActivity(req, res){
-var db= firebase.firestore();
+function deleteActivity(req, res) {
+    var db = firebase.firestore();
 
-var id = req.body.id;
-console.log("el id de la actividad a eliminar es:");
-console.log(id);
+    var id = req.body.id;
+    console.log("el id de la actividad a eliminar es:");
+    console.log(id);
 
-var projectRef = db.collection('Activity');
-var deleteDoc = projectRef.doc(id).delete().then(function () {
-    console.log("se elimino la actividad correctamente");
-    res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la actividad' });
-}).catch(function (error) {
-    res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
-});
+    var projectRef = db.collection('Activity');
+    var deleteDoc = projectRef.doc(id).delete().then(function () {
+        console.log("se elimino la actividad correctamente");
+        res.status(200).send({ msg: 'SE ELIMINO CORRECTAMENTE la actividad' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
 }
 
-function updateActivity(req, res){
-    var db=firebase.firestore();
+function updateActivity(req, res) {
+    var db = firebase.firestore();
     var id = req.body.id;
     console.log("variable del id");
     console.log(id);
@@ -429,10 +460,10 @@ function updateActivity(req, res){
         endTime: req.body.endTime,
         reward: req.body.reward,
         rules: req.body.rules,
-        startTime:req.body.startTime,
-        prize:req.body.prize,
-        medal:req.body.medal,
-        title:req.body.title,
+        startTime: req.body.startTime,
+        prize: req.body.prize,
+        medal: req.body.medal,
+        title: req.body.title,
 
     }).then(ref => {
         console.log('Se modifico exitosamente la actividad');
@@ -441,7 +472,7 @@ function updateActivity(req, res){
         res.status(404).send({ msg: 'Error no se ha podido modificar la actividad' })
     })
 
-    
+
 
 }
 // function getRewards(req,res){
@@ -454,10 +485,68 @@ function updateActivity(req, res){
 
 // }
 
+function getTypeOfScore(req, res) {
+    console.log("SVC: getTypeOfScore");
+    var id = req.body.id;
+    var db = firebase.firestore();
+    var projectRef = db.collection('TypeScore');
+    var score = {};
+    var scoreDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            score = {};
+            console.log(doc.data())
+
+
+            score = doc.data();
+            score.id = doc.id;
+
+            scoreDto.push(score);
+        });
+
+        res.status(200).send(scoreDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+function deleteMedal(req, res) {
+    var db = firebase.firestore();
+
+    var id = req.body.id;
+    console.log("el id de la medalla a eliminar es:");
+    console.log(id);
+
+}
+
+function createNotification(req, res) {
+    var fecha = getDate();
+    var db = firebase.firestore();
+    var title = req.body.title;
+    var message = req.body.message;
+    var startTime = req.body.startTime;
+    var endTime = req.body.endTime;
+
+    var addNotificacion = db.collection('Notify').add({
+        title: title,
+        message: message,
+        startTime: startTime,
+        creationTime: fecha,
+        endTime: endTime,
+
+
+    }).then(ref => {
+        console.log('new created notification: ', ref.id);
+        res.status(200).send({ id: ref.id });
+    }).catch(err => {
+        res.status(404).send({ msg: 'ERROR:', error: err });
+    });
+}
+
+
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
-    
+
     var description = req.body.description;
     var endTime = req.body.endTime;
     var idCoordinator = req.body.idCoordinator;
@@ -468,8 +557,8 @@ function createActivity(req, res) {
     var title = req.body.title;
     var typeScore = req.body.typeScore;
     var prize = req.body.prize;
-    var medal =req.body.medal;
-    var rules =req.body.rules;
+    var medal = req.body.medal;
+    var rules = req.body.rules;
 
     var addItem = db.collection('Activity').add({
         creationTime: fecha,
@@ -481,10 +570,10 @@ function createActivity(req, res) {
         startTime: startTime,
         status: status,
         title: title,
-        prize:prize,
-        medal:medal,
+        prize: prize,
+        medal: medal,
         typeScore: typeScore,
-        rules:rules,
+        rules: rules,
     }).then(ref => {
         console.log('new created activity: ', ref.id);
         res.status(200).send({ id: ref.id });
@@ -512,7 +601,10 @@ module.exports = {
     getMedalById,
     deleteActivity,
     updateActivity,
-
+    getTypeOfScore,
+    createNotification,
+     updateNotification,
+     deleteNotification,
 
 
 }

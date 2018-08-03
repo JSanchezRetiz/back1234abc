@@ -22,4 +22,8 @@ api.get('/getAllMedals', Coordinator_Routes.getAllMedals);
 api.post('/getMedalById', Coordinator_Routes.getMedalById);
 api.post('/deleteActivity', Coordinator_Routes.deleteActivity);
 api.post('/updateActivity', Coordinator_Routes.updateActivity);
+api.get('/getTypeOfScore', Coordinator_Routes.getTypeOfScore);
+api.post('/createNotification', Coordinator_Routes.createNotification);
+ api.post('/updateNotification', Coordinator_Routes.updateNotification);
+ api.post('/deleteNotification', Coordinator_Routes.deleteNotification);
 module.exports = api; 
