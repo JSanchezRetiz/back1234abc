@@ -209,7 +209,38 @@ function getItemById(req, res) {
             console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
         });
 }
-
+function getMyActivitys(req, res) {
+    var idUsers = req.body.idUsers;
+    var db = firebase.firestore();
+    var projectRef = db.collection('PublicOffer');
+    var activity = {};
+    var activitys = new Array();
+    projectRef.where("uId", "==", idUser).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activitys = {}
+            activitys.id = doc.id;
+            activitys.description = doc.data().description;
+            activitys.endTime = doc.data().endTime;
+            activitys.idActivity = doc.data().idActivity;
+            activitys.idCoordinator = doc.data().idCoordinator;
+            activitys.medal = doc.data().medal;
+            activitys.name = doc.data().name;
+            activitys.prize = doc.data().prize;
+            activitys.reward = doc.data().reward;
+            activitys.type = rules.data().rules;
+            activitys.StartTime = doc.data().StartTime;
+            activitys.status = doc.data().status;
+            activitys.title = doc.data().title;
+            activitys.typeScore = doc.data().typeScore;
+            activitys.idUsers = doc.data().idUsers;
+            activitys.push(activity);
+        });
+        res.status(200).send(activitys);
+    }).catch(function (error) {
+        res.status(500).send({ Error: error });
+        console.log("Error getting documents: ", error);
+    });
+}
 function newItemStore(req, res) {
 
     var db = firebase.firestore();
@@ -241,5 +272,6 @@ module.exports = {
     getAllItemsStore,
     getItemById,
     newItemStore,
+    getMyActivitys,
 
 }

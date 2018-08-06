@@ -13,4 +13,5 @@ api.post('/getStoreItem', UsersCtrl.getStoreItem);
 api.get('/getAllItemsStore', UsersCtrl.getAllItemsStore);
 api.post('/getItemById',UsersCtrl.getItemById)
 api.post('/newItemStore', UsersCtrl.newItemStore);
+api.post('/getMyActivitys', UsersCtrl.getMyActivitys);
 module.exports = api; 
