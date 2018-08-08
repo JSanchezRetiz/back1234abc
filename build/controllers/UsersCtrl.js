@@ -210,29 +210,30 @@ function getItemById(req, res) {
         });
 }
 function getMyActivitys(req, res) {
-    var idUsers = req.body.idUsers;
+    var uid = req.body.uid;
+    console.log(uid);
+
     var db = firebase.firestore();
-    var projectRef = db.collection('PublicOffer');
+    var projectRef = db.collection('registerActivitys');
     var activity = {};
     var activitys = new Array();
-    projectRef.where("uId", "==", idUser).get().then(function (snapshot) {
+    projectRef.where("uid", "==", uid  ).get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
-            activitys = {}
-            activitys.id = doc.id;
-            activitys.description = doc.data().description;
-            activitys.endTime = doc.data().endTime;
-            activitys.idActivity = doc.data().idActivity;
-            activitys.idCoordinator = doc.data().idCoordinator;
-            activitys.medal = doc.data().medal;
-            activitys.name = doc.data().name;
-            activitys.prize = doc.data().prize;
-            activitys.reward = doc.data().reward;
-            activitys.type = rules.data().rules;
-            activitys.StartTime = doc.data().StartTime;
-            activitys.status = doc.data().status;
-            activitys.title = doc.data().title;
-            activitys.typeScore = doc.data().typeScore;
-            activitys.idUsers = doc.data().idUsers;
+            activity = {}
+            activity.id = doc.id;
+            activity.description = doc.data().description;
+            activity.endTime = doc.data().endTime;
+            activity.creationTime = doc.data().creationTime;
+            activity.idCoordinator = doc.data().idCoordinator;
+            activity.medal = doc.data().medal;
+            activity.name = doc.data().name;
+            activity.prize = doc.data().prize;
+            activity.reward = doc.data().reward;
+            activity.StartTime = doc.data().StartTime;
+            activity.status = doc.data().status;
+            activity.title = doc.data().title;
+            activity.typeScore = doc.data().typeScore;
+            activity.rules = doc.data().rules;
             activitys.push(activity);
         });
         res.status(200).send(activitys);

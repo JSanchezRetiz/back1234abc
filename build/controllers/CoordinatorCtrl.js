@@ -32,7 +32,7 @@ function updateNotification(req, res) {
         startTime: req.body.startTime,
         title: req.body.title,
         message: req.body.message,
-    
+
     }).then(ref => {
         console.log('Se modifico exitosamente la notificacion');
         res.status(200).send(req.body.id);
@@ -569,6 +569,52 @@ function createNotification(req, res) {
 }
 
 
+function saveActivity(req, res) {
+    var fecha = getDate();
+    var db = firebase.firestore();
+
+    var id = req.body.id;
+    var uid = req.body.uid;
+    var description = req.body.description;
+    var endTime = req.body.endTime;
+    var idCoordinator = req.body.idCoordinator;
+    var name = req.body.name;
+    var reward = req.body.reward;
+    var startTime = req.body.startTime;
+    var status = req.body.status;
+    var title = req.body.title;
+    var typeScore = req.body.typeScore;
+    var prize = req.body.prize;
+    var medal = req.body.medal;
+    var rules = req.body.rules;
+
+
+    var addItem = db.collection('registerActivitys').add({
+        id: id,
+        uid: uid,
+        creationTime: fecha,
+        description: description,
+        endTime: endTime,
+        idCoordinator: idCoordinator,
+        name: name,
+        reward: reward,
+        startTime: startTime,
+        status: status,
+        title: title,
+        prize: prize,
+        medal: medal,
+        typeScore: typeScore,
+        rules: rules,
+    }).then(ref => {
+        console.log('new created activity: ', ref.id);
+        res.status(200).send({ id: ref.id });
+    }).catch(err => {
+        res.status(404).send({ msg: 'ERROR:', error: err });
+    });
+
+}
+
+
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
@@ -629,9 +675,10 @@ module.exports = {
     updateActivity,
     getTypeOfScore,
     createNotification,
-     updateNotification,
-     deleteNotification,
-     getAllNotification,
+    updateNotification,
+    deleteNotification,
+    getAllNotification,
+    saveActivity,
 
 
 }

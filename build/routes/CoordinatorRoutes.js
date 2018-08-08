@@ -15,6 +15,7 @@ api.post('/getAllScoreByActivity', Coordinator_Routes.getAllScoreByActivity);
 api.post('/updateItemStore', Coordinator_Routes.updateItemStore);
 api.post('/deleteItemStore', Coordinator_Routes.deleteItemStore);
 api.post('/createActivity', Coordinator_Routes.createActivity);
+api.post('/saveActivity', Coordinator_Routes.saveActivity);
 api.post('/createMedal', Coordinator_Routes.createMedal);
 api.post('/updateMedal', Coordinator_Routes.updateMedal);
 api.post('/deleteMedal', Coordinator_Routes.deleteMedal);
