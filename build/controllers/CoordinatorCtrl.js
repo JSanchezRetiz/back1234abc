@@ -551,6 +551,7 @@ function createNotification(req, res) {
     var message = req.body.message;
     var startTime = req.body.startTime;
     var endTime = req.body.endTime;
+    var activity = req.body.activity;
 
     var addNotificacion = db.collection('Notify').add({
         title: title,
@@ -558,6 +559,7 @@ function createNotification(req, res) {
         startTime: startTime,
         creationTime: fecha,
         endTime: endTime,
+        activity: activity,
 
 
     }).then(ref => {
