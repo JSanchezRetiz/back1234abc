@@ -547,6 +547,7 @@ function deleteMedal(req, res) {
 function createNotification(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
+    var allUser = req.body.allUser;
     var title = req.body.title;
     var message = req.body.message;
     var startTime = req.body.startTime;
@@ -554,6 +555,7 @@ function createNotification(req, res) {
     var activity = req.body.activity;
 
     var addNotificacion = db.collection('Notify').add({
+        allUser:allUser,
         title: title,
         message: message,
         startTime: startTime,
