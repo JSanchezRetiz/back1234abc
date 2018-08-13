@@ -539,8 +539,16 @@ function deleteMedal(req, res) {
     var db = firebase.firestore();
 
     var id = req.body.id;
-    console.log("el id de la medalla a eliminar es:");
+    console.log("el id de la actividad a eliminar es:");
     console.log(id);
+
+    var projectRef = db.collection('Medal');
+    var deleteDoc = projectRef.doc(id).delete().then(function () {
+        console.log("se elimino la medalla correctamente");
+        res.status(200).send({ msg: 'se elimino la medalla correctamente' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
 
 }
 
@@ -552,8 +560,6 @@ function createNotification(req, res) {
     var message = req.body.message;
     var startTime = req.body.startTime;
     var endTime = req.body.endTime;
-    var activity = req.body.activity;
-
     var addNotificacion = db.collection('Notify').add({
         allUser:allUser,
         title: title,
@@ -561,8 +567,6 @@ function createNotification(req, res) {
         startTime: startTime,
         creationTime: fecha,
         endTime: endTime,
-        activity: activity,
-
 
     }).then(ref => {
         console.log('new created notification: ', ref.id);
