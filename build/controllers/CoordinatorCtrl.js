@@ -542,7 +542,7 @@ function deleteMedal(req, res) {
     console.log("el id de la actividad a eliminar es:");
     console.log(id);
 
-    var projectRef = db.collection('Medal');
+    var projectRef = db.collection('Medals');
     var deleteDoc = projectRef.doc(id).delete().then(function () {
         console.log("se elimino la medalla correctamente");
         res.status(200).send({ msg: 'se elimino la medalla correctamente' });
