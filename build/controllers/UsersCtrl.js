@@ -209,39 +209,34 @@ function getItemById(req, res) {
             console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
         });
 }
-// function getNotificatiosGlobal(req, res) {
-//     var uid = req.body.uid;
-//     console.log(uid);
+function getNotificationsGlobal(req, res) {
+    var uid = req.body.uid;
+    var allUser= req.body.allUser;
+    console.log(uid);
 
-//     var db = firebase.firestore();
-//     var projectRef = db.collection('Notify');
-//     var notification = {};
-//     var notifications = new Array();
-//     projectRef.where("uid", "==", uid  ).get().then(function (snapshot) {
-//         snapshot.forEach(function (doc) {
-//             activity = {}
-//             activity.id = doc.id;
-//             activity.description = doc.data().description;
-//             activity.endTime = doc.data().endTime;
-//             activity.creationTime = doc.data().creationTime;
-//             activity.idCoordinator = doc.data().idCoordinator;
-//             activity.medal = doc.data().medal;
-//             activity.name = doc.data().name;
-//             activity.prize = doc.data().prize;
-//             activity.reward = doc.data().reward;
-//             activity.StartTime = doc.data().StartTime;
-//             activity.status = doc.data().status;
-//             activity.title = doc.data().title;
-//             activity.typeScore = doc.data().typeScore;
-//             activity.rules = doc.data().rules;
-//             activitys.push(activity);
-//         });
-//         res.status(200).send(activitys);
-//     }).catch(function (error) {
-//         res.status(500).send({ Error: error });
-//         console.log("Error getting documents: ", error);
-//     });
-// }
+    var db = firebase.firestore();
+    var projectRef = db.collection('Notify');
+    var notification = {};
+    var notifications = new Array();
+    projectRef.where("uid", "==", uid || "allUser", "==", allUser  ).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            notification = {}
+            notification.id = doc.id;
+            notification.activity = doc.data().activity;
+            notification.endTime = doc.data().endTime;
+            notification.creationTime = doc.data().creationTime;
+            notification.message = doc.data().message;
+            notification.startTime = doc.data().startTime;
+            notification.title = doc.data().title;
+           
+            notifications.push(notification);
+        });
+        res.status(200).send(notifications);
+    }).catch(function (error) {
+        res.status(500).send({ Error: error });
+        console.log("Error getting documents: ", error);
+    });
+}
 function getMyActivitys(req, res) {
     var uid = req.body.uid;
     console.log(uid);
@@ -307,5 +302,6 @@ module.exports = {
     getItemById,
     newItemStore,
     getMyActivitys,
+    getNotificationsGlobal,
 
 }
