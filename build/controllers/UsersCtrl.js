@@ -209,20 +209,44 @@ function getItemById(req, res) {
             console.log('ERROR: NO SE PUDO OBTENER EL PROYECTO', err);
         });
 }
-function getNotificationsGlobal(req, res) {
-    var uid = req.body.uid;
-    var allUser= req.body.allUser;
-    console.log(uid);
+function getNotificationsGroup(req, res) {
+    var id= req.body.id;
+    console.log(activity);
+    var db = firebase.firestore();
+    var projectRef = db.collection('registerActivitys');
+    var activity = {};
+    var notifications = new Array();
+    projectRef.where("id", "==", id).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            notification = {}
+            notification.id = doc.id;
+            notification.endTime = doc.data().endTime;
+            notification.creationTime = doc.data().creationTime;
+            notification.message = doc.data().message;
+            notification.startTime = doc.data().startTime;
+            notification.title = doc.data().title;
+            
+           
+            notifications.push(notification);
+        });
+        res.status(200).send(notifications);
+    }).catch(function (error) {
+        res.status(500).send({ Error: error });
+        console.log("Error getting documents: ", error);
+    });
+}
 
+function getNotificationsGlobal(req, res) {
+    var allUser= req.body.allUser;
+    console.log(allUser);
     var db = firebase.firestore();
     var projectRef = db.collection('Notify');
     var notification = {};
     var notifications = new Array();
-    projectRef.where("uid", "==", uid || "allUser", "==", allUser  ).get().then(function (snapshot) {
+    projectRef.where("allUser", "==", "Todos").get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
             notification = {}
             notification.id = doc.id;
-            notification.activity = doc.data().activity;
             notification.endTime = doc.data().endTime;
             notification.creationTime = doc.data().creationTime;
             notification.message = doc.data().message;
@@ -303,5 +327,6 @@ module.exports = {
     newItemStore,
     getMyActivitys,
     getNotificationsGlobal,
+    getNotificationsGroup,
 
 }

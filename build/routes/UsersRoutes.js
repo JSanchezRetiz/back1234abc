@@ -15,4 +15,6 @@ api.post('/getItemById',UsersCtrl.getItemById)
 api.post('/newItemStore', UsersCtrl.newItemStore);
 api.post('/getMyActivitys', UsersCtrl.getMyActivitys);
 api.post('/getNotificationsGlobal', UsersCtrl.getNotificationsGlobal);
+api.post('/getNotificationsGroup', UsersCtrl.getNotificationsGroup);
+
 module.exports = api;
