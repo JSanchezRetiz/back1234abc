@@ -210,13 +210,13 @@ function getItemById(req, res) {
         });
 }
 function getNotificationsGroup(req, res) {
-    var activity= req.body.activity;
+    var id= req.body.id;
     console.log(activity);
     var db = firebase.firestore();
-    var projectRef = db.collection('Notify');
+    var projectRef = db.collection('registerActivitys');
     var activity = {};
     var notifications = new Array();
-    projectRef.where("activity", "==", activity).get().then(function (snapshot) {
+    projectRef.where("id", "==", id).get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
             notification = {}
             notification.id = doc.id;
@@ -225,6 +225,7 @@ function getNotificationsGroup(req, res) {
             notification.message = doc.data().message;
             notification.startTime = doc.data().startTime;
             notification.title = doc.data().title;
+            
            
             notifications.push(notification);
         });
@@ -242,7 +243,7 @@ function getNotificationsGlobal(req, res) {
     var projectRef = db.collection('Notify');
     var notification = {};
     var notifications = new Array();
-    projectRef.where("allUser", "==", allUser).get().then(function (snapshot) {
+    projectRef.where("allUser", "==", "Todos").get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
             notification = {}
             notification.id = doc.id;
