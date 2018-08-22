@@ -28,4 +28,5 @@ api.post('/createNotification', Coordinator_Routes.createNotification);
  api.post('/updateNotification', Coordinator_Routes.updateNotification);
  api.post('/deleteNotification', Coordinator_Routes.deleteNotification);
  api.get('/getAllNotification', Coordinator_Routes.getAllNotification);
+ api.get('/getAllUsers', Coordinator_Routes.getAllUsers);
 module.exports = api; 

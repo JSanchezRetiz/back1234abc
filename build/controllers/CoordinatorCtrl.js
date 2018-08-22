@@ -556,11 +556,9 @@ function createNotification(req, res) {
     });
 }
 
-
 function saveActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
-
     var id = req.body.id;
     var uid = req.body.uid;
     var description = req.body.description;
@@ -602,6 +600,27 @@ function saveActivity(req, res) {
 
 }
 
+function getAllUsers(req, res){
+    console.log("SVC: getAllUsers");
+    var id = req.body.id;
+    var db = firebase.firestore();
+    var projectRef = db.collection('Users');
+    var user = {};
+    var users = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            user = {};
+            console.log(doc.data())
+            user = doc.data();
+            user.id = doc.id;
+            users.push(user);
+        });
+
+        res.status(200).send(users);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
 
 function createActivity(req, res) {
     var fecha = getDate();
@@ -669,6 +688,7 @@ module.exports = {
     deleteNotification,
     getAllNotification,
     saveActivity,
+    getAllUsers,
 
 
 }
