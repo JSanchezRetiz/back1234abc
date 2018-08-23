@@ -556,11 +556,9 @@ function createNotification(req, res) {
     });
 }
 
-
 function saveActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
-
     var id = req.body.id;
     var uid = req.body.uid;
     var description = req.body.description;
@@ -602,7 +600,65 @@ function saveActivity(req, res) {
 
 }
 
+function getAllUsers(req, res) {
+    console.log("SVC: getAllUsers");
+    var id = req.body.id;
+    var db = firebase.firestore();
+    var projectRef = db.collection('Users');
+    var user = {};
+    var users = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            user = {};
+            console.log(doc.data())
+            user = doc.data();
+            user.id = doc.id;
+            users.push(user);
+        });
 
+        res.status(200).send(users);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+
+function updateUsers(req, res) {
+    var db = firebase.firestore();
+    var id = req.body.id;
+    console.log("variable del id");
+    console.log(id);
+
+    var projectRef = db.collection('Users').doc(id).update({
+        city: req.body.city,
+        experience: req.body.experience,
+        job: req.body.job,
+        lastname: req.body.lastname,
+        name: req.body.name,
+        role: req.body.role,
+        score: req.body.score,
+
+    }).then(ref => {
+        console.log('Se modifico exitosamente el usuario');
+        res.status(200).send(req.body.id);
+    }).catch(err => {
+        res.status(404).send({ msg: 'Error no se ha podido modificar el usuario' })
+    })
+
+}
+
+function deleteUsers(req,res){
+    var db = firebase.firestore();
+    var id = req.body.id;
+    console.log("el id del usuario a eliminar es:");
+    console.log(id);
+    var projectRef = db.collection('Users');
+    var deleteDoc = projectRef.doc(id).delete().then(function () {
+        console.log("se elimino el usuario  correctamente");
+        res.status(200).send({ msg: 'se elimino el usuario correctamente' });
+    }).catch(function (error) {
+        res.status(404).send({ msg: 'ERROR: NO SE PUDO ELIMINAR' });
+    });
+}
 function createActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
@@ -627,7 +683,7 @@ function createActivity(req, res) {
         endTime: endTime,
         idCoordinator: idCoordinator,
         name: name,
-        dificulty:dificulty,
+        dificulty: dificulty,
         reward: reward,
         startTime: startTime,
         status: status,
@@ -669,6 +725,9 @@ module.exports = {
     deleteNotification,
     getAllNotification,
     saveActivity,
+    getAllUsers,
+    deleteUsers,
+    updateUsers,
 
 
 }
