@@ -25,8 +25,11 @@ api.post('/deleteActivity', Coordinator_Routes.deleteActivity);
 api.post('/updateActivity', Coordinator_Routes.updateActivity);
 api.get('/getTypeOfScore', Coordinator_Routes.getTypeOfScore);
 api.post('/createNotification', Coordinator_Routes.createNotification);
- api.post('/updateNotification', Coordinator_Routes.updateNotification);
- api.post('/deleteNotification', Coordinator_Routes.deleteNotification);
- api.get('/getAllNotification', Coordinator_Routes.getAllNotification);
- api.get('/getAllUsers', Coordinator_Routes.getAllUsers);
-module.exports = api; 
+api.post('/updateNotification', Coordinator_Routes.updateNotification);
+api.post('/deleteNotification', Coordinator_Routes.deleteNotification);
+api.get('/getAllNotification', Coordinator_Routes.getAllNotification);
+api.get('/getAllUsers', Coordinator_Routes.getAllUsers);
+api.post('/deleteUsers', Coordinator_Routes.deleteUsers);
+api.post('/updateUsers', Coordinator_Routes.updateUsers);
+
+ module.exports = api; 
