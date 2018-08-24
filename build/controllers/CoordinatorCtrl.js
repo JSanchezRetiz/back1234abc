@@ -636,6 +636,7 @@ function updateUsers(req, res) {
         name: req.body.name,
         role: req.body.role,
         score: req.body.score,
+        email: req.body.email,
 
     }).then(ref => {
         console.log('Se modifico exitosamente el usuario');
