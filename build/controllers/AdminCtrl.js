@@ -65,6 +65,7 @@ console.log(req.body);
             creationDate: creationDate,
             city: city,
             job: job,
+            email:email,
 
 
         }).then(ref => {
