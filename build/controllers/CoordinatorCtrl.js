@@ -32,6 +32,7 @@ function updateNotification(req, res) {
         startTime: req.body.startTime,
         title: req.body.title,
         message: req.body.message,
+        activity: req.body.activity,
 
     }).then(ref => {
         console.log('Se modifico exitosamente la notificacion');
@@ -475,6 +476,7 @@ function updateActivity(req, res) {
         prize: req.body.prize,
         medal: req.body.medal,
         title: req.body.title,
+        dificulty: req.body.dificulty,
 
     }).then(ref => {
         console.log('Se modifico exitosamente la actividad');
