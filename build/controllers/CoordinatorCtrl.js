@@ -203,8 +203,7 @@ function registerScore(req, res) {
  */
     var dateScore = getDate();
     var userName = req.body.userName;
-    var activityName = req.body.activityName;
-    var activityId = req.body.activityId;
+    var idActivity = req.body.idActivity;
     var sco = req.body.score;
     var exp = req.body.experience;
     var uid = req.body.uid;
@@ -215,12 +214,11 @@ function registerScore(req, res) {
     let promises = [];
     promises.push(guardarScore.add({
 
-        activityId: activityId,
+        idActivity: idActivity,
         score: sco,
         experience: exp,
         uid: uid,
         userName: userName,
-        activityName: activityName,
         dateScore: dateScore,
     })
     );
