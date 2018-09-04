@@ -16,5 +16,6 @@ api.post('/newItemStore', UsersCtrl.newItemStore);
 api.post('/getMyActivitys', UsersCtrl.getMyActivitys);
 api.post('/getNotificationsGlobal', UsersCtrl.getNotificationsGlobal);
 api.post('/getNotificationsGroup', UsersCtrl.getNotificationsGroup);
+api.post('/getActivitiesById',UsersCtrl.getActivitiesById);
 
 module.exports = api;

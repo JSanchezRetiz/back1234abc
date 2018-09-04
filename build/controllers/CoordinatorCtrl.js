@@ -562,6 +562,7 @@ function saveActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
     var id = req.body.id;
+    var idActivity = req.body.id;
     var uid = req.body.uid;
     var description = req.body.description;
     var endTime = req.body.endTime;
@@ -579,6 +580,7 @@ function saveActivity(req, res) {
 
     var addItem = db.collection('registerActivitys').add({
         id: id,
+        idActivity:idActivity,
         uid: uid,
         creationTime: fecha,
         description: description,
@@ -648,8 +650,27 @@ function updateUsers(req, res) {
     })
 
 }
+function getAllActivityRegister(req, res) {
+    var db = firebase.firestore();
+    var projectRef = db.collection('registerActivitys');
+    var activity = {};
+    var activityDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {};
+            console.log(doc.data())
+            activity = doc.data();
+            activity.id = doc.id;
+         
+            activityDto.push(activity);
+        });
 
-function deleteUsers(req,res){
+        res.status(200).send(activityDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+function deleteUsers(req, res) {
     var db = firebase.firestore();
     var id = req.body.id;
     console.log("el id del usuario a eliminar es:");
@@ -731,6 +752,7 @@ module.exports = {
     getAllUsers,
     deleteUsers,
     updateUsers,
+    getAllActivityRegister,
 
 
 }
