@@ -28,11 +28,10 @@ function updateStatusUser(req, res){
         }else{
             if(doc.data().role=="administrador"){
                 console.log("usuario autorizado para modificar informacion")
-                firebase.auth().updateUser(req.body.idUser,{
-                    disabled:req.body.status,
-                }).then(function (userRecord){
+                firebase.auth().updateUser(req.body.uid,{
+                    disabled:req.body.status}).then(function (userRecord){
                     console.log('actualizacion realizada');
-                    res.status(200).send({msg:'se modifico correctmente el estado del usuario' + req.body.idUpdate });
+                    res.status(200).send({msg:'se modifico correctmente el estado del usuario' + req.body.idUser });
                 }).catch(function (error){
                     res.status(404).send({
                         msg:'error no se logro cambiar el stado de  la cuenta'
