@@ -11,4 +11,5 @@ api.post('/editMedal', AdminCtrl.editMedal);
 api.post('/deleteMedal', AdminCtrl.deleteMedal);
 api.post('/getMedal', AdminCtrl.getMedal);
 api.post('/createAuthUser', AdminCtrl.createAuthUser);
+api.post('/updateStatusUser', AdminCtrl.updateStatusUser);
 module.exports = api; 

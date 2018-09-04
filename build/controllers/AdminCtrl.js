@@ -19,6 +19,32 @@ function getDate() {
     return date;
 }
 
+function updateStatusUser(req, res){
+    var db = firebase.firestore();
+    var userRef= db.collection('Users').doc(req.body.uid);
+    var getDoc = userRef.get().then(doc=>{
+        if (!doc.exists){
+            res.status(500).send('error usuario no encontrado');
+        }else{
+            if(doc.data().role=="administrador"){
+                console.log("usuario autorizado para modificar informacion")
+                firebase.auth().updateUser(req.body.idUser,{
+                    disabled:req.body.status,
+                }).then(function (userRecord){
+                    console.log('actualizacion realizada');
+                    res.status(200).send({msg:'se modifico correctmente el estado del usuario' + req.body.idUpdate });
+                }).catch(function (error){
+                    res.status(404).send({
+                        msg:'error no se logro cambiar el stado de  la cuenta'
+                    });
+                })
+            }else{
+                res.status(500).send("rol que envia la solicitud no esta autorizado")
+            }
+        }
+    })
+    }
+
 function createAuthUser(req, res) {
     /**
      * Crear nuevo usuario.
@@ -83,6 +109,7 @@ console.log(req.body);
 
 }
 
+
 function createMedal(req, res) {
     /**
      * Crear Medalla
@@ -118,5 +145,6 @@ module.exports = {
     editMedal,
     deleteMedal,
     getMedal,
+    updateStatusUser,
 
 }
