@@ -272,7 +272,7 @@ function getActivitiesById(req, res) {
     projectRef.where("idActivity", "==", idActivity  ).get().then(function (snapshot) {
         snapshot.forEach(function (doc) {
             activity = {}
-            activity.id = doc.data().id;
+            
             activity.description = doc.data().description;
             activity.endTime = doc.data().endTime;
             activity.creationTime = doc.data().creationTime;

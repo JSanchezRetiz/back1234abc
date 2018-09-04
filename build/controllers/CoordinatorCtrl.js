@@ -203,7 +203,8 @@ function registerScore(req, res) {
  */
     var dateScore = getDate();
     var userName = req.body.userName;
-    var idActivity = req.body.idActivity;
+    var activityName = req.body.activityName;
+    var activityId = req.body.activityId;
     var sco = req.body.score;
     var exp = req.body.experience;
     var uid = req.body.uid;
@@ -214,11 +215,12 @@ function registerScore(req, res) {
     let promises = [];
     promises.push(guardarScore.add({
 
-        idActivity: idActivity,
+        activityId: activityId,
         score: sco,
         experience: exp,
         uid: uid,
         userName: userName,
+        activityName: activityName,
         dateScore: dateScore,
     })
     );
@@ -688,7 +690,7 @@ function createActivity(req, res) {
     var description = req.body.description;
     var endTime = req.body.endTime;
     var idCoordinator = req.body.idCoordinator;
-    var name = req.body.name;
+    // var name = req.body.name;
     var dificulty = req.body.dificulty;
     var reward = req.body.reward;
     var startTime = req.body.startTime;
@@ -704,7 +706,7 @@ function createActivity(req, res) {
         description: description,
         endTime: endTime,
         idCoordinator: idCoordinator,
-        name: name,
+        // name: name,
         dificulty: dificulty,
         reward: reward,
         startTime: startTime,
