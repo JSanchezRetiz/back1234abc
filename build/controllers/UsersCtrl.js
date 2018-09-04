@@ -261,6 +261,40 @@ function getNotificationsGlobal(req, res) {
         console.log("Error getting documents: ", error);
     });
 }
+function getActivitiesById(req, res) {
+    var idActivity = req.body.idActivity;
+    console.log(idActivity);
+
+    var db = firebase.firestore();
+    var projectRef = db.collection('registerActivitys');
+    var activity = {};
+    var activitys = new Array();
+    projectRef.where("idActivity", "==", idActivity  ).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {}
+            
+            activity.description = doc.data().description;
+            activity.endTime = doc.data().endTime;
+            activity.creationTime = doc.data().creationTime;
+            activity.idCoordinator = doc.data().idCoordinator;
+            activity.medal = doc.data().medal;
+            activity.name = doc.data().name;
+            activity.prize = doc.data().prize;
+            activity.reward = doc.data().reward;
+            activity.StartTime = doc.data().StartTime;
+            activity.status = doc.data().status;
+            activity.title = doc.data().title;
+            activity.typeScore = doc.data().typeScore;
+            activity.rules = doc.data().rules;
+            activitys.push(activity);
+        });
+        res.status(200).send(activitys);
+    }).catch(function (error) {
+        res.status(500).send({ Error: error });
+        console.log("Error getting documents: ", error);
+    });
+}
+
 function getMyActivitys(req, res) {
     var uid = req.body.uid;
     console.log(uid);
@@ -273,6 +307,7 @@ function getMyActivitys(req, res) {
         snapshot.forEach(function (doc) {
             activity = {}
             activity.id = doc.id;
+            activity.idActivity = doc.data().idActivity;
             activity.description = doc.data().description;
             activity.endTime = doc.data().endTime;
             activity.creationTime = doc.data().creationTime;
@@ -328,5 +363,6 @@ module.exports = {
     getMyActivitys,
     getNotificationsGlobal,
     getNotificationsGroup,
+    getActivitiesById,
 
 }

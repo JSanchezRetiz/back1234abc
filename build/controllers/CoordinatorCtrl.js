@@ -203,7 +203,8 @@ function registerScore(req, res) {
  */
     var dateScore = getDate();
     var userName = req.body.userName;
-    var idActivity = req.body.idActivity;
+    var activityName = req.body.activityName;
+    var activityId = req.body.activityId;
     var sco = req.body.score;
     var exp = req.body.experience;
     var uid = req.body.uid;
@@ -214,11 +215,12 @@ function registerScore(req, res) {
     let promises = [];
     promises.push(guardarScore.add({
 
-        idActivity: idActivity,
+        activityId: activityId,
         score: sco,
         experience: exp,
         uid: uid,
         userName: userName,
+        activityName: activityName,
         dateScore: dateScore,
     })
     );
@@ -560,6 +562,7 @@ function saveActivity(req, res) {
     var fecha = getDate();
     var db = firebase.firestore();
     var id = req.body.id;
+    var idActivity = req.body.id;
     var uid = req.body.uid;
     var description = req.body.description;
     var endTime = req.body.endTime;
@@ -577,6 +580,7 @@ function saveActivity(req, res) {
 
     var addItem = db.collection('registerActivitys').add({
         id: id,
+        idActivity:idActivity,
         uid: uid,
         creationTime: fecha,
         description: description,
@@ -646,8 +650,27 @@ function updateUsers(req, res) {
     })
 
 }
+function getAllActivityRegister(req, res) {
+    var db = firebase.firestore();
+    var projectRef = db.collection('registerActivitys');
+    var activity = {};
+    var activityDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {};
+            console.log(doc.data())
+            activity = doc.data();
+            activity.id = doc.id;
+         
+            activityDto.push(activity);
+        });
 
-function deleteUsers(req,res){
+        res.status(200).send(activityDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+}
+function deleteUsers(req, res) {
     var db = firebase.firestore();
     var id = req.body.id;
     console.log("el id del usuario a eliminar es:");
@@ -667,7 +690,7 @@ function createActivity(req, res) {
     var description = req.body.description;
     var endTime = req.body.endTime;
     var idCoordinator = req.body.idCoordinator;
-    var name = req.body.name;
+    // var name = req.body.name;
     var dificulty = req.body.dificulty;
     var reward = req.body.reward;
     var startTime = req.body.startTime;
@@ -683,7 +706,7 @@ function createActivity(req, res) {
         description: description,
         endTime: endTime,
         idCoordinator: idCoordinator,
-        name: name,
+        // name: name,
         dificulty: dificulty,
         reward: reward,
         startTime: startTime,
@@ -729,6 +752,7 @@ module.exports = {
     getAllUsers,
     deleteUsers,
     updateUsers,
+    getAllActivityRegister,
 
 
 }

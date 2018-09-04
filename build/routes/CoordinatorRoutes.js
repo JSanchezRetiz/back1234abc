@@ -31,5 +31,6 @@ api.get('/getAllNotification', Coordinator_Routes.getAllNotification);
 api.get('/getAllUsers', Coordinator_Routes.getAllUsers);
 api.post('/deleteUsers', Coordinator_Routes.deleteUsers);
 api.post('/updateUsers', Coordinator_Routes.updateUsers);
+api.get('/getAllActivityRegister', Coordinator_Routes.getAllActivityRegister);
 
  module.exports = api; 
