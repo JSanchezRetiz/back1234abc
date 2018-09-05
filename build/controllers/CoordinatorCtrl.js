@@ -671,6 +671,30 @@ function updateUsers(req, res) {
     })
 
 }
+function getActivitiesParticipatingById(req,res){
+    var activityId = req.body.activityId;
+    console.log(activityId);
+    var db = firebase.firestore();
+    var projectRef = db.collection('ActivityScore');
+    var activity = {};
+    var activitys = new Array();
+    projectRef.where("activityId", "==", activityId  ).get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {}
+            activity.activityName = doc.data().activityName;
+            activity.dateScore = doc.data().dateScore;
+            activity.experience = doc.data().experience;
+            activity.score = doc.data().score;
+            activity.uid = doc.data().uid;
+            activity.userName = doc.data().userName;
+            activitys.push(activity);
+        });
+        res.status(200).send(activitys);
+    }).catch(function (error) {
+        res.status(500).send({ Error: error });
+        console.log("Error getting documents: ", error);
+    });
+}
 function getAllActivityRegister(req, res) {
     var db = firebase.firestore();
     var projectRef = db.collection('registerActivitys');
@@ -775,6 +799,7 @@ module.exports = {
     updateUsers,
     getAllActivityRegister,
     getAllParticipatingUsers,
+    getActivitiesParticipatingById,
 
 
 }

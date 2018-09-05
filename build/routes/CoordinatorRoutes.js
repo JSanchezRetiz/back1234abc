@@ -33,5 +33,6 @@ api.post('/deleteUsers', Coordinator_Routes.deleteUsers);
 api.post('/updateUsers', Coordinator_Routes.updateUsers);
 api.get('/getAllActivityRegister', Coordinator_Routes.getAllActivityRegister);
 api.get('/getAllParticipatingUsers', Coordinator_Routes.getAllParticipatingUsers);
+api.post('/getActivitiesParticipatingById',Coordinator_Routes.getActivitiesParticipatingById);
 
  module.exports = api; 
