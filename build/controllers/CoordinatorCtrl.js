@@ -603,6 +603,27 @@ function saveActivity(req, res) {
     });
 
 }
+function getAllParticipatingUsers(req,res){
+    var db = firebase.firestore();
+    var projectRef = db.collection('ActivityScore');
+    var activity = {};
+    var activityDto = new Array();
+    projectRef.get().then(function (snapshot) {
+        snapshot.forEach(function (doc) {
+            activity = {};
+            console.log(doc.data())
+            activity = doc.data();
+            activity.id = doc.id;
+         
+            activityDto.push(activity);
+        });
+
+        res.status(200).send(activityDto);
+    }).catch(function (error) {
+        res.status(500).send({ msg: "Error. No se encontraron datos. Reintenta" });
+    });
+
+}
 
 function getAllUsers(req, res) {
     console.log("SVC: getAllUsers");
@@ -753,6 +774,7 @@ module.exports = {
     deleteUsers,
     updateUsers,
     getAllActivityRegister,
+    getAllParticipatingUsers,
 
 
 }
